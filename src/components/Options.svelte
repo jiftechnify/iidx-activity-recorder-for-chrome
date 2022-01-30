@@ -2,7 +2,7 @@
   import type { IStorage } from '../types';
 
   export let count: number;
-  let successMessage: string = null;
+  let successMessage: string | null = null;
 
   function increment() {
     count += 1;

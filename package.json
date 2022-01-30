@@ -16,6 +16,7 @@
     "@rollup/plugin-typescript": "^8.2.5",
     "@tsconfig/svelte": "^2.0.1",
     "@types/chrome": "0.0.159",
+    "@types/luxon": "^2.0.9",
     "rollup": "^2.58.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-svelte": "^7.1.0",
@@ -25,5 +26,8 @@
     "svelte-preprocess": "^4.9.8",
     "tslib": "^2.3.1",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "luxon": "^2.3.0"
   }
 }
