@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nekitcorp/chrome-extension-svelte-typescript-boilerplate.git"
+    "url": "https://github.com/jiftechnify/iidx-activity-recorder-for-chrome"
   },
   "scripts": {
     "build": "rollup -c",
