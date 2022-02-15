@@ -1,10 +1,5 @@
 import { DateTime } from 'luxon';
-
-type DailyActivity = {
-  d: string; // date
-  k: number; // keyboard
-  s: number; // scratch
-};
+import type { DailyActivity } from './models/DailyActivity';
 
 type VersionMonthKey = `${number}_${number}`;
 
