@@ -2,6 +2,7 @@
   import { DateTime } from 'luxon';
   import type { DailyActivity } from '../models/DailyActivity';
   import { range } from '../utils/Range';
+  import HeatmapBlankPixel from './HeatmapBlankPixel.svelte';
   import HeatmapPixel, { PixelColorParams, PixelColorProps } from './HeatmapPixel.svelte';
 
   // the date that current version of IIDX was lauched
@@ -91,8 +92,12 @@
   const pxMargin = 2;
   const pxBorderRadius = 3;
 
+  const bgColor = '#223';
+
   const numDaysToRender = 365;
-  const offsetRange = range(numDaysToRender);
+  const todayOffset = daysAfterLaunch(DateTime.now().toFormat('yyyyMMdd'));
+  const pastOffsetRange = range(0, todayOffset);
+  const futureOffsetRange = range(todayOffset + 1, numDaysToRender - 1);
 
   type Coord2D = {
     x: number;
@@ -158,7 +163,7 @@
   $: pixelColorSpec = pixelColorSpecOfType[selectedHeatmapType];
 </script>
 
-<div class="container">
+<div class="container" style={`--bg-color: ${bgColor}`}>
   <div class="header">
     <div class="title">IIDX Activity Heatmap</div>
     <select class="typeSelector" bind:value={selectedHeatmapType}>
@@ -170,13 +175,21 @@
   <div class="heatmap">
     <svg viewBox={`0 0 ${heatmapWidth} 96`} width={heatmapWidth} height="96">
       <g>
-        {#each offsetRange as offset}
+        {#each pastOffsetRange as offset}
           <HeatmapPixel
             size={pxSize}
             borderRadius={pxBorderRadius}
             position={pixelPos(offsetToPixelCoord(offset))}
             colorProps={pixelColorSpec.props}
             colorParams={pixelColorSpec.deriveParams(activityStatsAt(offset), maxVals)}
+          />
+        {/each}
+        {#each futureOffsetRange as offset}
+          <HeatmapBlankPixel
+            size={pxSize}
+            borderRadius={pxBorderRadius}
+            position={pixelPos(offsetToPixelCoord(offset))}
+            fillColor={bgColor}
           />
         {/each}
       </g>
@@ -187,7 +200,7 @@
 <style>
   .container {
     width: max-content;
-    background-color: #223;
+    background-color: var(--bg-color);
     padding: 8px;
   }
   .header {

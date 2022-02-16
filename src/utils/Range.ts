@@ -1,1 +1,1 @@
-export const range = (until: number) => Array.from({ length: until }, (v, k) => k);
+export const range = (start: number, end: number) => Array.from({ length: end - start + 1 }, (v, k) => k + start);
