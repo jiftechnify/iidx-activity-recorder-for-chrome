@@ -1,27 +1,38 @@
-<script lang="ts">
-  export let size: number;
-  export let borderRadius: number;
+<script lang="ts" context="module">
+  // static properties that determine heatmap pixel's color
+  export type PixelColorProps = {
+    maxH: number;
+    minH: number;
+    sat: number;
+    minL?: number;
+    maxL: number;
+  };
 
-  export let x: number;
-  export let y: number;
+  const defaultMinL = 0;
 
-  export let maxH: number;
-  export let minH: number;
-
-  export let sat: number;
-
-  export let minL: number = 0;
-  export let maxL: number;
-
-  export let hueParam: number;
-  export let lightnessParam: number;
-
-  export let isZero: boolean;
+  // variable parameters that determine heat map pixel's color
+  export type PixelColorParams = {
+    hueParam: number;
+    lightnessParam: number;
+    isZero: boolean;
+  };
 
   const outlineStyle = 'outline: solid 1px rgba(27, 31, 35, 0.06); outline-offset: -1px;';
   const zeroStyle = 'fill: hsl(0, 0%, 35%);';
+</script>
+
+<script lang="ts">
+  export let size: number;
+  export let borderRadius: number;
+  export let position: { x: number; y: number };
+
+  export let colorProps: PixelColorProps;
+  export let colorParams: PixelColorParams;
 
   $: fillStyle = (() => {
+    const { maxH, minH, sat, minL, maxL } = { minL: defaultMinL, ...colorProps };
+    const { hueParam, lightnessParam, isZero } = colorParams;
+
     if (isZero) {
       return zeroStyle;
     }
@@ -34,4 +45,4 @@
   $: rectStyle = `${fillStyle} ${outlineStyle}`;
 </script>
 
-<rect width={size} height={size} {x} {y} rx={borderRadius} ry={borderRadius} style={rectStyle} />
+<rect width={size} height={size} {...position} rx={borderRadius} ry={borderRadius} style={rectStyle} />
